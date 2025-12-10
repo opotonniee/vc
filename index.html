@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="create">Create VC</button>
+  <button id="get">Get VC</button>
+  <script>
+    document.getElementById('create').onclick = async () => {
+      try {
+        const credential = await navigator.credentials.create({
+          web: {
+            type: 'VerifiableCredential',
+            data: {
+              '@context': ['https://www.w3.org/2018/credentials/v1'],
+              type: ['VerifiableCredential', 'UniversityDegreeCredential'],
+              issuer: 'https://example.edu/issuers/14',
+              issuanceDate: new Date().toISOString(),
+              credentialSubject: {
+                id: 'did:example:123',
+                degree: {
+                  type: 'BachelorDegree',
+                  name: 'Bachelor of Science and Arts'
+                },
+                name: "Joe Doe",
+                title: "Software Engineer",
+                description: "Wrote a valid prompt to generate a Fibonacci sequence",
+                dateOfIssue: "2020-06-30",
+                directedBy: "Turing University",
+                location: "London, UK",
+              }
+            }
+          }/*,
+          proof: {
+            type: "DataIntegrityProof",
+            cryptosuite: "eddsa-rdfc-2022",
+            created: "2020-06-30T18:19:39Z",
+            verificationMethod: "https://university.example/issuers/14#key-1",
+            proofPurpose: "assertionMethod",
+            proofValue: "z58DAdFfa9SkqZMVPxAQpjQCrfFPP2oumHKtz"
+          }*/
+        });
+        console.log('Created Credential:', credential);
+      } catch (error) {
+        console.error('Error creating credential:', error);
+      }
+    };
+
+    document.getElementById('get').onclick = async () => {
+      try {
+        const credential = await navigator.credentials.get({
+          web: {
+            type: 'VerifiableCredential',
+            query: {
+              type: 'UniversityDegreeCredential'
+            }
+          }
+        });
+        console.log('Retrieved Credential:', credential);
+      } catch (error) {
+        console.error('Error retrieving credential:', error);
+      }
+    };
+  </script>
+</body>
+</html>
