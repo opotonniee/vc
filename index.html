@@ -8,8 +8,16 @@
 <body>
   <button id="create">Create VC</button>
   <button id="get">Get VC</button>
+  <div id="output"></div>
   <script>
-    document.getElementById('create').onclick = async () => {
+    function get1(selector) {
+      return document.querySelector(selector);
+    }
+    function out(message) {
+      get1('#output').innerText = message;
+    }
+
+    get1('#create').onclick = async () => {
       try {
         const credential = await navigator.credentials.create({
           web: {
@@ -43,13 +51,13 @@
             proofValue: "z58DAdFfa9SkqZMVPxAQpjQCrfFPP2oumHKtz"
           }*/
         });
-        console.log('Created Credential:', credential);
+        out('Created Credential: ' + credential);
       } catch (error) {
-        console.error('Error creating credential:', error);
+        out('Error creating credential: ' + error);
       }
     };
 
-    document.getElementById('get').onclick = async () => {
+    get1('#get').onclick = async () => {
       try {
         const credential = await navigator.credentials.get({
           web: {
@@ -59,9 +67,9 @@
             }
           }
         });
-        console.log('Retrieved Credential:', credential);
+        out('Retrieved Credential: ' + credential);
       } catch (error) {
-        console.error('Error retrieving credential:', error);
+        out('Error retrieving credential: ' + error);
       }
     };
   </script>
